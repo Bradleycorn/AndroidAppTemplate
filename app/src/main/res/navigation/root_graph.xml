@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/root_graph"
+            app:startDestination="@id/rootFragment">
+
+    <fragment android:id="@+id/rootFragment"
+              android:name="net.bradball.android.androidapptemplate.ui.rootFragment.RootFragment"
+              android:label="App Template" tools:layout="@layout/fragment_root"/>
+</navigation>
