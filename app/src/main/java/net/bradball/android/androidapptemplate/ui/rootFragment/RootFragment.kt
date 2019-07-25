@@ -1,17 +1,14 @@
 package net.bradball.android.androidapptemplate.ui.rootFragment
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_root.*
 
 import net.bradball.android.androidapptemplate.R
 import net.bradball.android.androidapptemplate.di.ViewModelFactory
@@ -28,15 +25,25 @@ class RootFragment : DaggerFragment() {
     private lateinit var tabLayout: TabLayout
     private lateinit var betType: TextView
 
+    private var tabsToShow: List<String>? = null
+    private var selectedTabPosition: Int? = null
+    private var isReselected: Boolean = false
+
     private val tabListener = object : TabLayout.OnTabSelectedListener {
         override fun onTabSelected(tab: TabLayout.Tab) {
             Log.d("MENU", "Tab selected: ${tab.text}")
             toggleMotionLayout()
-            toggleTabs(tab)
+            if (tab.position != selectedTabPosition && !isReselected) {
+                toggleTabs(tab)
+            }
         }
 
-        override fun onTabReselected(tab: TabLayout.Tab?) { /* noop */ }
-        override fun onTabUnselected(tab: TabLayout.Tab?) { /* noop */ }
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+            toggleTabs(tab, true)
+
+        }
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+            /* noop */ }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,21 +89,25 @@ class RootFragment : DaggerFragment() {
 
     }
 
-    private fun toggleTabs(tab: TabLayout.Tab? = null) {
-
+    private fun toggleTabs(tab: TabLayout.Tab? = null, reselected: Boolean = false) {
+        isReselected = reselected
         val tabs = listOf("Win", "Place", "Show", "Exacta", "Trifecta", "Superfecta")
         val modifiers = listOf("Straight", "Key", "Box", "Key Box", "Wheel")
 
-        var tabsToShow: List<String>? = null
-
         if (tab == null) {
             tabsToShow = tabs
+
         } else {
             when (tab.text) {
                 "Exacta",
                 "Trifecta",
-                "Superfecta" -> tabsToShow = modifiers
+                "Superfecta" -> {
+                    tabsToShow = modifiers
+                    selectedTabPosition = tab.position
+
+                }
                 else -> tabsToShow = null
+
             }
         }
 
@@ -108,7 +119,6 @@ class RootFragment : DaggerFragment() {
         }
 
 
-
         tabsToShow?.let {
             tabLayout.removeAllTabs()
             it.forEach { tabName ->
@@ -117,12 +127,34 @@ class RootFragment : DaggerFragment() {
                 }
                 tabLayout.addTab(tab)
             }
+
         }
+
+        if (tabLayout.tabCount == modifiers.size) {
+            tabLayout.setSelectedTabIndicator(R.drawable.rectangle_modifier_indicator)
+            tabLayout.setSelectedTabIndicatorGravity(TabLayout.INDICATOR_GRAVITY_CENTER)
+        } else {
+            tabLayout.setSelectedTabIndicator(R.drawable.line_tab_indicator)
+            tabLayout.setSelectedTabIndicatorGravity(TabLayout.INDICATOR_GRAVITY_BOTTOM)
+        }
+
+
+        if (tabLayout.tabCount == tabs.size && selectedTabPosition != null) {
+            var tab = tabLayout.getTabAt(selectedTabPosition!!)
+            if (tab != null) {
+                tab.select()
+                selectedTabPosition = null
+            }
+        }
+
+
+
     }
 
     private fun toggleMotionLayout(): Boolean {
-
-        motionLayout.transitionToState(R.id.bet_type_selected)
+        if (tabsToShow != null) {
+            motionLayout.transitionToState(R.id.bet_type_selected)
+        }
 
         return true
     }
