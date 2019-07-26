@@ -1,6 +1,7 @@
 package net.bradball.android.androidapptemplate.ui.rootFragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
@@ -33,7 +34,7 @@ class RootFragment : DaggerFragment() {
         override fun onTabSelected(tab: TabLayout.Tab) {
             Log.d("MENU", "Tab selected: ${tab.text}")
             toggleMotionLayout()
-            if (tab.position != selectedTabPosition && !isReselected) {
+            if (tab.position != selectedTabPosition) {
                 toggleTabs(tab)
             }
         }
@@ -93,6 +94,7 @@ class RootFragment : DaggerFragment() {
         isReselected = reselected
         val tabs = listOf("Win", "Place", "Show", "Exacta", "Trifecta", "Superfecta")
         val modifiers = listOf("Straight", "Key", "Box", "Key Box", "Wheel")
+        val tabList = ArrayList<TabLayout.Tab>()
 
         if (tab == null) {
             tabsToShow = tabs
@@ -122,12 +124,30 @@ class RootFragment : DaggerFragment() {
         tabsToShow?.let {
             tabLayout.removeAllTabs()
             it.forEach { tabName ->
-                val tab = tabLayout.newTab().apply {
+                val newTab = tabLayout.newTab().apply {
                     text = tabName
                 }
-                tabLayout.addTab(tab)
+                tabList.add(newTab)
             }
 
+        }
+
+        if (tabList.size == modifiers.size) {
+            var i = 1
+            for (newTab in tabList) {
+                if (newTab.isSelected) {
+                    tabLayout.addTab(newTab)
+                } else {
+                    tabLayout.addTab(tabLayout.newTab().apply {
+                        text = modifiers[i]
+                        i+=1
+                    })
+                }
+            }
+        } else {
+            for (newTab in tabList) {
+                tabLayout.addTab(newTab)
+            }
         }
 
         if (tabLayout.tabCount == modifiers.size) {
@@ -142,12 +162,12 @@ class RootFragment : DaggerFragment() {
         if (tabLayout.tabCount == tabs.size && selectedTabPosition != null) {
             var tab = tabLayout.getTabAt(selectedTabPosition!!)
             if (tab != null) {
-                tab.select()
-                selectedTabPosition = null
+                Handler().postDelayed(Runnable {
+                    tab.select()
+                    selectedTabPosition = null
+                }, 0)
             }
         }
-
-
 
     }
 
