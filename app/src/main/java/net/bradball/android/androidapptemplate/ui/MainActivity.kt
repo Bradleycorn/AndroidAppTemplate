@@ -36,8 +36,17 @@ import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class MainActivity : DaggerAppCompatActivity() {
+interface LocationProvider {
+    val activityContext: Activity
+
+    fun onLocationActivityResult() {
+    }
+}
+
+class MainActivity : DaggerAppCompatActivity(), LocationProvider {
     private val TAG = "LOCATION"
+
+    override val activityContext: Activity = this
 
     companion object {
         private const val PLAY_SERVICES_REQUEST = 1
@@ -63,8 +72,6 @@ class MainActivity : DaggerAppCompatActivity() {
     private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
-
-
 
     private val googlePlay: GoogleApiAvailability by lazy { GoogleApiAvailability.getInstance() }
     private val locationSettingsClient: SettingsClient by lazy { LocationServices.getSettingsClient(this) }
@@ -204,13 +211,21 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+
+
         super.onActivityResult(requestCode, resultCode, data)
+
+
         googlePlayServicesRequests[requestCode]?.let { continuation ->
             googlePlayServicesRequests.remove(requestCode)
             continuation.resume(googlePlay.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS)
         }
 
         locationServiceRequests[requestCode]?.let { continuation ->
+            //TODO - Make sure this works properly. When the user clicks "OK"
+            // on the location services dialog, see what it returns and make sure this
+            // returns true.
             locationServiceRequests.remove(requestCode)
             continuation.resume(resultCode == Activity.RESULT_OK)
         }
