@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+            motion:constraintSetStart="@+id/movable_view_hidden"
+            motion:constraintSetEnd="@+id/movable_view_inline"
+            motion:duration="250" />
+
+    <Transition
+            motion:constraintSetStart="@+id/movable_view_inline"
+            motion:constraintSetEnd="@+id/movable_view_pip"
+            motion:duration="250" />
+    <!--
+        <Transition
+                motion:constraintSetStart="@+id/video_state_embedded"
+                motion:constraintSetEnd="@+id/video_state_pip"
+                motion:duration="250" />
+
+        <Transition
+                motion:constraintSetStart="@+id/video_state_pip"
+                motion:constraintSetEnd="@+id/video_state_embedded"
+                motion:duration="250" />
+
+        <Transition
+                motion:constraintSetStart="@+id/video_state_pip"
+                motion:constraintSetEnd="@+id/video_state_stopped"
+                motion:duration="1" />
+    -->
+
+    <!--
+        Define several sets of Constraints for the various States that the
+        Program view (specifically the video player) might be in. When defining
+        Constraints for a view, the values defined in the main fragment layout
+        will be applied, and the properties defined here will then be added.
+        if the same property is defined in both places, the value defined here will
+        override the value in the main layout. The end result is that you don't have
+        to define EVERY property for every view in this file. In most cases, you
+        only need to define the things that change from the default in the main layout.
+        The one caveat is with <Layout> tags.
+
+        If you need to add a <Layout> tag to a given Constraint, you will need to
+        specify ALL of the appropriate layout_* properties necessary to render the
+        view. It will not pull defaults from the main layout. This may mean that you
+        need to update the same view in the other ConstraintSets to make sure that
+        the layout_* properties for that state are set appropriately as well.
+    -->
+    <ConstraintSet  android:id="@+id/movable_view_hidden">
+        <Constraint android:id="@+id/movable_view">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+
+
+    <ConstraintSet android:id="@+id/movable_view_inline">
+        <Constraint android:id="@+id/program_video">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/movable_view_pip">
+        <Constraint android:id="@+id/movable_view">
+            <Layout
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" />
+            <Transform android:elevation="4dp" />
+        </Constraint>
+
+        <Constraint android:id="@+id/my_view_pager">
+            <Layout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintBottom_toBottomOf="parent" />
+        </Constraint>
+    </ConstraintSet>
+
+</MotionScene>

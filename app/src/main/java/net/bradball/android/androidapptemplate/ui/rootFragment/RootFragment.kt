@@ -1,27 +1,25 @@
 package net.bradball.android.androidapptemplate.ui.rootFragment
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.viewModels
-import dagger.android.support.DaggerFragment
+import dagger.hilt.android.AndroidEntryPoint
+import net.bradball.android.androidapptemplate.databinding.FragmentRootBinding
+import net.bradball.android.androidapptemplate.extras.ViewBoundFragment
 
-import net.bradball.android.androidapptemplate.R
-import net.bradball.android.androidapptemplate.di.ViewModelFactory
-import javax.inject.Inject
+@AndroidEntryPoint
+class RootFragment : ViewBoundFragment<FragmentRootBinding>() {
 
-class RootFragment : DaggerFragment() {
-
-    @Inject
-    protected lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel by viewModels<RootViewModel> { viewModelFactory }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_root, container, false)
+    override fun inflate(inflater: LayoutInflater, container: ViewGroup?): FragmentRootBinding {
+        return FragmentRootBinding.inflate(inflater, container, false)
     }
+
+    private val viewModel: RootViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
 
 }

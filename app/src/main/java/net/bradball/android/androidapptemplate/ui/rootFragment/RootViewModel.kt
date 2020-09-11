@@ -1,8 +1,8 @@
 package net.bradball.android.androidapptemplate.ui.rootFragment
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
-import javax.inject.Inject
 
-class RootViewModel @Inject constructor() : ViewModel() {
+class RootViewModel @ViewModelInject constructor() : ViewModel() {
     // TODO: Implement the ViewModel
 }
