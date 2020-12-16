@@ -2,10 +2,16 @@ package net.bradball.android.androidapptemplate.ui
 
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging
+import com.google.firebase.inappmessaging.display.ktx.inAppMessagingDisplay
+import com.google.firebase.inappmessaging.ktx.inAppMessaging
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import dagger.hilt.android.AndroidEntryPoint
 import net.bradball.android.androidapptemplate.R
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "971811782864",
+    "project_id": "fiam-demo",
+    "storage_bucket": "fiam-demo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971811782864:android:c51beb439054a805501ed5",
+        "android_client_info": {
+          "package_name": "net.bradball.android.androidapptemplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971811782864-fpj2cctk3i2n7l4ericopr654r5vr8tv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCepwuaMu0Vk9dcDkjj7IBGGdnsaG97t6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971811782864-fpj2cctk3i2n7l4ericopr654r5vr8tv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

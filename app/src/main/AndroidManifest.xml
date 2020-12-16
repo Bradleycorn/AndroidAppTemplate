@@ -2,6 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="net.bradball.android.androidapptemplate">
 
+<!-- Uncomment these lines to get In-App Messaging Action buttons working on Android 11 -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
+-->
+
     <application
             android:name=".TemplateApplication"
             android:allowBackup="true"

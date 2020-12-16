@@ -19,7 +19,17 @@ class RootFragment : ViewBoundFragment<FragmentRootBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
+        views.textView.text = when {
+            viewModel.isAndroid11 -> "Ready to test FIAM Action Button on Android 11."
+            else -> "Can't Reproduce FIAM Action Button defect."
+        }
 
+        views.instructions.text = when {
+            viewModel.isAndroid11 -> "Send an In-App Message to this device and click on it's action button. " +
+                    "Note that the browser does not open when the button is clicked." +
+                    "\n\n Uncomment the <queries> node in the app manifest and try again and the button will work properly."
+            else -> "You must install this app on a device running Android 11 to reproduce the defect."
+        }
+    }
 
 }

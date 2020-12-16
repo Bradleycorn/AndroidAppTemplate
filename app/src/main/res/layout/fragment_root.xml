@@ -14,6 +14,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintVertical_bias="0.3"
-            android:text="Hello World" />
+            android:paddingHorizontal="32dp"
+            android:textAlignment="center" />
+
+    <TextView android:id="@+id/instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="32dp"
+            android:textAlignment="center" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
